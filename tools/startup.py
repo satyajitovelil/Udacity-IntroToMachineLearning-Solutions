@@ -91,13 +91,13 @@ def download(resume_byte_pos = None):
 if File.exists():
     file_size_offline = File.stat().st_size
     if file_size_online != file_size_offline:
-        print "File is incomplete. Resume download."
+        print "File is incomplete. Resuming download."
         download(file_size_offline)
     else:
-        print "File is complete. Skip download."
+        print "File is complete. Download skipped."
         pass
 else:
-    print "File does not exist. Start download."
+    print "File does not exist. Starting download."
     download()
 
 
@@ -107,7 +107,8 @@ print "unzipping Enron dataset (this may take a while)"
 import tarfile
 
 os.chdir("..")
-tfile = tarfile.open("enron_mail_20150507.tar.gz", "r:gz")
-tfile.extractall(".")
+
+with tarfile.open("enron_mail_20150507.tar.gz", "r:gz") as tfile:
+    tfile.extractall(".")
 
 print "you're ready to go!"
