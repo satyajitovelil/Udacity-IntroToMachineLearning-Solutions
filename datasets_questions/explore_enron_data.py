@@ -17,6 +17,11 @@
 
 import pickle
 
-enron_data = pickle.load(open("../final_project/final_project_dataset.pkl", "rb"))
+with open("../final_project/final_project_dataset.pkl", "r") as f:
+    enron_data = pickle.load(f)
 
+print len(enron_data[enron_data.keys()[0]].keys())
 
+pois = [k for k,v in enron_data.items() if v["poi"] == True]
+
+print len(pois)
