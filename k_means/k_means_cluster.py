@@ -23,12 +23,12 @@ def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature
     ### plot each cluster with a different color--add more colors for
     ### drawing more than five clusters
     colors = ["b", "c", "k", "m", "g"]
-    for ii, pp in enumerate(pred):
+    for ii, _ in enumerate(pred):
         plt.scatter(features[ii][0], features[ii][1], color = colors[pred[ii]])
 
     ### if you like, place red stars over points that are POIs (just for funsies)
     if mark_poi:
-        for ii, pp in enumerate(pred):
+        for ii, _ in enumerate(pred):
             if poi[ii]:
                 plt.scatter(features[ii][0], features[ii][1], color="r", marker="*")
     plt.xlabel(f1_name)
@@ -48,6 +48,7 @@ data_dict.pop("TOTAL", 0)
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+feature_3 = "total_payments"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
@@ -64,13 +65,21 @@ plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
+from sklearn.cluster import KMeans
 
-
-
+km = KMeans(n_clusters=2)
+pred = km.fit_predict(finance_features)
 
 ### rename the "name" parameter when you change the number of features
 ### so that the figure gets saved to a different file
 try:
-    Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
+    Draw(pred, finance_features, poi, mark_poi=False, name="2clusters.pdf", f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
+
+
+# In the scatterplot that pops up, are the clusters what you expected?
+# More or less
+
+# Do any points switch clusters? How many?
+# 4
